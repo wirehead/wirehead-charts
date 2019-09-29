@@ -40,7 +40,7 @@ spec:
           - mountPath: /var/www/localstore
             name: localstore-volume
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-web
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
@@ -60,6 +60,17 @@ spec:
             httpGet:
               path: /
               port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        - name: {{ .Chart.Name }}-cron
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['crontab-foreground']
+          volumeMounts:
+          - mountPath: /var/www/data
+            name: data-volume
+          - mountPath: /var/www/localstore
+            name: localstore-volume
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
