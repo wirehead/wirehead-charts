@@ -11,4 +11,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        args: chart/app https://user.github.io/app
+        args: charts/semanticmediawiki https://wirehead.github.io/wirehead-charts
