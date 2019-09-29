@@ -30,3 +30,10 @@ Create chart name and version as used by the chart label.
 {{- define "semanticmediawiki.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Generate chart secret name
+*/}}
+{{- define "semanticmediawiki.secretName" -}}
+{{ default (include "semanticmediawiki.fullname" .) .Values.existingSecret }}
+{{- end -}}

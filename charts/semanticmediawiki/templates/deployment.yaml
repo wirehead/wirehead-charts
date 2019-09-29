@@ -43,7 +43,7 @@ spec:
           - name: MEDIAWIKI_SECRET_KEY
             valueFrom: 
               secretKeyRef:
-                name: {{ include "semanticmediawiki.fullname" . }}
+                name: {{ template "semanticmediawiki.secretName" . }}
                 key: secret-key
           - name: MEDIAWIKI_DB_TYPE
             value: {{ .Values.database.type | quote }}
@@ -59,7 +59,7 @@ spec:
           - name: MEDIAWIKI_DB_PASSWORD
             valueFrom: 
               secretKeyRef:
-                name: {{ include "semanticmediawiki.fullname" . }}
+                name: {{ template "semanticmediawiki.secretName" . }}
                 key: database-password
           {{- end }}
           - name: MEDIAWIKI_DB_NAME
@@ -98,7 +98,7 @@ spec:
           - name: MEDIAWIKI_SECRET_KEY
             valueFrom: 
               secretKeyRef:
-                name: {{ include "semanticmediawiki.fullname" . }}
+                name: {{ template "semanticmediawiki.secretName" . }}
                 key: secret-key
           - name: MEDIAWIKI_DB_TYPE
             value: {{ .Values.database.type | quote }}
@@ -114,7 +114,7 @@ spec:
           - name: MEDIAWIKI_DB_PASSWORD
             valueFrom: 
               secretKeyRef:
-                name: {{ include "semanticmediawiki.fullname" . }}
+                name: {{ template "semanticmediawiki.secretName" . }}
                 key: database-password
           {{- end }}
           - name: MEDIAWIKI_DB_NAME
@@ -157,7 +157,7 @@ spec:
           - name: MEDIAWIKI_SECRET_KEY
             valueFrom: 
               secretKeyRef:
-                name: {{ include "semanticmediawiki.fullname" . }}
+                name: {{ template "semanticmediawiki.secretName" . }}
                 key: secret-key
           - name: MEDIAWIKI_DB_TYPE
             value: {{ .Values.database.type | quote }}
@@ -173,7 +173,7 @@ spec:
           - name: MEDIAWIKI_DB_PASSWORD
             valueFrom: 
               secretKeyRef:
-                name: {{ include "semanticmediawiki.fullname" . }}
+                name: {{ template "semanticmediawiki.secretName" . }}
                 key: database-password
           {{- end }}
           - name: MEDIAWIKI_DB_NAME
@@ -227,7 +227,7 @@ spec:
           - name: MEDIAWIKI_SECRET_KEY
             valueFrom: 
               secretKeyRef:
-                name: {{ include "semanticmediawiki.fullname" . }}
+                name: {{ template "semanticmediawiki.secretName" . }}
                 key: secret-key
           - name: MEDIAWIKI_DB_TYPE
             value: {{ .Values.database.type | quote }}
@@ -243,7 +243,7 @@ spec:
           - name: MEDIAWIKI_DB_PASSWORD
             valueFrom: 
               secretKeyRef:
-                name: {{ include "semanticmediawiki.fullname" . }}
+                name: {{ template "semanticmediawiki.secretName" . }}
                 key: database-password
           {{- end }}
           - name: MEDIAWIKI_DB_NAME
@@ -263,7 +263,12 @@ spec:
             {{- toYaml .Values.cron.resources | nindent 12 }}
       volumes:
         - name: data-volume
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "postgresql.fullname" .) }}
+        {{- else }}
           emptyDir: {}
+        {{- end }}
         - name: localstore-volume
           emptyDir: {}
       {{- with .Values.nodeSelector }}

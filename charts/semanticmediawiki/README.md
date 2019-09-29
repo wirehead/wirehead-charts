@@ -72,6 +72,14 @@ The following table lists the configurable parameters of the SemanticMediaWiki c
 | `database.name`             | Name of the external database | `nil` |
 | `database.port`             | Port for the external database (only necessary for postgres) | `nil` |
 | `database.schema`           | Schema of the external database (only necessary for postgres) | `nil` |
+| `persistence.enabled`       | Use a PVC to persist data | `false` |
+| `persistence.existingClaim` | Provide an existing PersistentVolumeClaim | `nil` |
+| `persistence.storageClass`  | Storage class of backing PVC | `nil` (uses alpha storage class annotation) |
+| `persistence.accessMode`    | Use volume as ReadOnly or ReadWrite | `ReadWriteOnce` |
+| `persistence.annotations`   | Persistent Volume annotations | `{}` |
+| `persistence.size`          | Size of data volume | `8Gi` |
+| `persistence.resourcePolicy` | set resource-policy Helm annotation on PVC. Can be nil or "keep" | `nil` |
+| `existingSecret`            | Use an existing secret for database.password and wiki.secretKey | `nil` |
 | `service.type`              | Kubernetes Service type | `ClusterIP` |
 | `service.port`              | Service HTTP Port | `80` |
 | `ingress.enabled`           | Enable ingress controller resource | `false` |
@@ -88,18 +96,17 @@ The following table lists the configurable parameters of the SemanticMediaWiki c
 
 ## Persistence
 
+### Database
+
+### Uploads
+
 ## Upgrading
+
+No upgrades yet.
 
 ## Changelog
 
-## Todo:
-
-- [x] Works in basic mode
-- [ ] Readme files
-- [x] Cron
-- [ ] Persistance flag
-- [x] Config variables
-- [x] Figure out that helm repo build thingie
+Still on dev-ish
 
 ## Inspired by:
 
