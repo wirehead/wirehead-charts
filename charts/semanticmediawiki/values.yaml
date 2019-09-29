@@ -30,6 +30,15 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+database:
+  type: sqlite
+  #host: database-host
+  #user: postgres
+  #password: password
+  name: my_wiki
+  #port: 5432
+  #schema: mediawiki
+
 wiki:
   path: http://127.0.0.1:8080
   user: admin
@@ -37,6 +46,11 @@ wiki:
   name: tst
   lang: en
   semanticRoot: http://www.example.com/
+  uploads: false
+  # See https://www.mediawiki.org/wiki/Manual:$wgSecretKey for details
+  # This should be a 64 character hexidecimal string
+  #secretKey: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 
 web:
   resources: {}

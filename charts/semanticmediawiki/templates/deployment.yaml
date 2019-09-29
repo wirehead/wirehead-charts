@@ -36,6 +36,40 @@ spec:
             value: {{ .Values.wiki.password | quote }}
           - name: SMW_SEMANTIC_URL
             value: {{ .Values.wiki.semanticRoot | quote }}
+          {{- if .Values.wiki.uploads }}
+          - name: MEDIAWIKI_ENABLE_UPLOADS
+            value: "true"
+          {{- end }}
+          - name: MEDIAWIKI_SECRET_KEY
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "semanticmediawiki.fullname" . }}
+                key: secret-key
+          - name: MEDIAWIKI_DB_TYPE
+            value: {{ .Values.database.type | quote }}
+          {{- if .Values.database.host }}
+          - name: MEDIAWIKI_DB_HOST
+            value: {{ .Values.database.host | quote }}
+          {{- end }}
+          {{- if .Values.database.user }}
+          - name: MEDIAWIKI_DB_USER
+            value: {{ .Values.database.user | quote }}
+          {{- end }}
+          {{- if .Values.database.password }}
+          - name: MEDIAWIKI_DB_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "semanticmediawiki.fullname" . }}
+                key: database-password
+          {{- end }}
+          - name: MEDIAWIKI_DB_NAME
+            value: {{ .Values.database.name | quote }}
+          - name: MEDIAWIKI_DB_PORT
+            value: {{ .Values.database.port | quote }}
+          {{- if .Values.database.schema }}
+          - name: MEDIAWIKI_DB_SCHEMA
+            value: {{ .Values.database.schema | quote }}
+          {{- end }}
           volumeMounts:
           - mountPath: /var/www/data
             name: data-volume
@@ -57,6 +91,40 @@ spec:
             value: {{ .Values.wiki.password | quote }}
           - name: SMW_SEMANTIC_URL
             value: {{ .Values.wiki.semanticRoot | quote }}
+          {{- if .Values.wiki.uploads }}
+          - name: MEDIAWIKI_ENABLE_UPLOADS
+            value: "true"
+          {{- end }}
+          - name: MEDIAWIKI_SECRET_KEY
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "semanticmediawiki.fullname" . }}
+                key: secret-key
+          - name: MEDIAWIKI_DB_TYPE
+            value: {{ .Values.database.type | quote }}
+          {{- if .Values.database.host }}
+          - name: MEDIAWIKI_DB_HOST
+            value: {{ .Values.database.host | quote }}
+          {{- end }}
+          {{- if .Values.database.user }}
+          - name: MEDIAWIKI_DB_USER
+            value: {{ .Values.database.user | quote }}
+          {{- end }}
+          {{- if .Values.database.password }}
+          - name: MEDIAWIKI_DB_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "semanticmediawiki.fullname" . }}
+                key: database-password
+          {{- end }}
+          - name: MEDIAWIKI_DB_NAME
+            value: {{ .Values.database.name | quote }}
+          - name: MEDIAWIKI_DB_PORT
+            value: {{ .Values.database.port | quote }}
+          {{- if .Values.database.schema }}
+          - name: MEDIAWIKI_DB_SCHEMA
+            value: {{ .Values.database.schema | quote }}
+          {{- end }}
           securityContext:
             runAsUser: 33
             allowPrivilegeEscalation: false
@@ -82,6 +150,40 @@ spec:
             value: {{ .Values.wiki.password | quote }}
           - name: SMW_SEMANTIC_URL
             value: {{ .Values.wiki.semanticRoot | quote }}
+          {{- if .Values.wiki.uploads }}
+          - name: MEDIAWIKI_ENABLE_UPLOADS
+            value: "true"
+          {{- end }}
+          - name: MEDIAWIKI_SECRET_KEY
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "semanticmediawiki.fullname" . }}
+                key: secret-key
+          - name: MEDIAWIKI_DB_TYPE
+            value: {{ .Values.database.type | quote }}
+          {{- if .Values.database.host }}
+          - name: MEDIAWIKI_DB_HOST
+            value: {{ .Values.database.host | quote }}
+          {{- end }}
+          {{- if .Values.database.user }}
+          - name: MEDIAWIKI_DB_USER
+            value: {{ .Values.database.user | quote }}
+          {{- end }}
+          {{- if .Values.database.password }}
+          - name: MEDIAWIKI_DB_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "semanticmediawiki.fullname" . }}
+                key: database-password
+          {{- end }}
+          - name: MEDIAWIKI_DB_NAME
+            value: {{ .Values.database.name | quote }}
+          - name: MEDIAWIKI_DB_PORT
+            value: {{ .Values.database.port | quote }}
+          {{- if .Values.database.schema }}
+          - name: MEDIAWIKI_DB_SCHEMA
+            value: {{ .Values.database.schema | quote }}
+          {{- end }}
           volumeMounts:
           - mountPath: /var/www/data
             name: data-volume
@@ -118,6 +220,40 @@ spec:
             value: {{ .Values.wiki.password | quote }}
           - name: SMW_SEMANTIC_URL
             value: {{ .Values.wiki.semanticRoot | quote }}
+          {{- if .Values.wiki.uploads }}
+          - name: MEDIAWIKI_ENABLE_UPLOADS
+            value: "true"
+          {{- end }}
+          - name: MEDIAWIKI_SECRET_KEY
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "semanticmediawiki.fullname" . }}
+                key: secret-key
+          - name: MEDIAWIKI_DB_TYPE
+            value: {{ .Values.database.type | quote }}
+          {{- if .Values.database.host }}
+          - name: MEDIAWIKI_DB_HOST
+            value: {{ .Values.database.host | quote }}
+          {{- end }}
+          {{- if .Values.database.user }}
+          - name: MEDIAWIKI_DB_USER
+            value: {{ .Values.database.user | quote }}
+          {{- end }}
+          {{- if .Values.database.password }}
+          - name: MEDIAWIKI_DB_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "semanticmediawiki.fullname" . }}
+                key: database-password
+          {{- end }}
+          - name: MEDIAWIKI_DB_NAME
+            value: {{ .Values.database.name | quote }}
+          - name: MEDIAWIKI_DB_PORT
+            value: {{ .Values.database.port | quote }}
+          {{- if .Values.database.schema }}
+          - name: MEDIAWIKI_DB_SCHEMA
+            value: {{ .Values.database.schema | quote }}
+          {{- end }}
           volumeMounts:
           - mountPath: /var/www/data
             name: data-volume

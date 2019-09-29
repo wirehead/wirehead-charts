@@ -17,11 +17,27 @@ This chart bootstraps a [SemanticMediaWiki](https://www.semantic-mediawiki.org/)
 - Kubernetes 1.13+ (It may work on older versions?)
 - PV provisioner support in the underlying infrastructure
 
-
 ## Installing the Chart
 
+To install the chart with the release name `my-release`:
+
+```console
+$ helm install --name my-release semanticmediawiki
+```
+This will deploy a SemanticMediaWiki instance on the Kubernetes cluster in the default configuration.  See the [configuration](#configuration) section to determine how to configure your instance.
+
+**Tip**: List all releases using `helm list`
 
 ## Uninstalling the Chart
+
+To uninstall/delete the `my-release` deployment:
+
+```console
+$ helm delete my-release
+```
+This will remove all components running on Kubernetes associated with this install.  
+
+Note that it will not de-provision the database data if that's been configured.
 
 ## Configuration
 
@@ -35,11 +51,20 @@ The following table lists the configurable parameters of the SemanticMediaWiki c
 | `nameOverride`              | String to partially override semanticmediawiki.fullname template with a string (will prepend the release name) | `nil` |
 | `fullnameOverride`          | String to fully override semanticmediawiki.fullname template with a string | `nil` |
 | `wiki.path`                 | Root for SemanticMediaWiki to generate paths against | `http://127.0.0.1:8080` |
-| `wiki.semanticRoot`         | Root for SemanticMediaWiki to use as a root for the RDF properties | `http://www.example.com/` |
+| `wiki.semanticRoot`         | Path for SemanticMediaWiki to use as a root for the RDF properties | `http://www.example.com/` |
 | `wiki.user`                 | Admin user of the application | `admin` |
 | `wiki.password`             | Application password | `password` |
 | `wiki.name`                 | Name for the wiki | `tst` |
 | `wiki.lang`                 | Language code for the wiki | `en` |
+| `wiki.uploads`              | Set to true value to enable uploads | `false` |
+| `wiki.secretKey`            | Secret and session key for MediaWiki | randomly generated string |
+| `database.type`             | Type of the database (sqlite, postgres, or mysql) | `sqlite` |
+| `database.host`             | Host of the external database | `nil` |
+| `database.user`             | Username in the external db | `nil` |
+| `database.password`         | Password for the above username | `nil` |
+| `database.name`             | Name of the external database | `nil` |
+| `database.port`             | Port for the external database (only necessary for postgres) | `nil` |
+| `database.schema`           | Schema of the external database (only necessary for postgres) | `nil` |
 | `service.type`              | Kubernetes Service type | `ClusterIP` |
 | `service.port`              | Service HTTP Port | `80` |
 | `ingress.enabled`           | Enable ingress controller resource | `false` |
@@ -53,7 +78,6 @@ The following table lists the configurable parameters of the SemanticMediaWiki c
 | `affinity`                  | Map of node/pod affinities | `{}` |
 | `nodeSelector`              | Map of node selectors | `{}` |
 | `tolerations`               | Map of node tolerations | `{}` |
-
 
 ## Persistence
 
@@ -69,3 +93,7 @@ The following table lists the configurable parameters of the SemanticMediaWiki c
 - [ ] Persistance flag
 - [ ] Config variables
 - [ ] Figure out that helm repo build thingie
+
+## Inspired by:
+
+ * https://github.com/helm/charts/tree/master/stable/mediawiki
