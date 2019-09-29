@@ -3,9 +3,9 @@ entries:
   semanticmediawiki:
   - apiVersion: v1
     appVersion: "1.31"
-    created: 2019-09-29T22:35:49.66146275Z
+    created: 2019-09-29T22:39:09.976114341Z
     description: SemanticMediaWiki
-    digest: b1b2bb0ce90a6e971784d535db7caa1fc4c5b13c814130960e78789ab505914b
+    digest: 42ad46a20b70e168475eafa704ab46d8987446b1f4ef652d935077dd85d8d94e
     engine: gotpl
     home: https://github.com/wirehead/wirehead-charts/tree/master/charts/semanticmediawiki
     icon: https://raw.githubusercontent.com/wirehead/semantic-mediawiki-docker/master/icons/favicon-202x202.png
@@ -24,4 +24,4 @@ entries:
     urls:
     - semanticmediawiki/semanticmediawiki-0.1.0.tgz
     version: 0.1.0
-generated: 2019-09-29T22:35:49.660915785Z
+generated: 2019-09-29T22:39:09.975594693Z
