@@ -1,0 +1,14 @@
+on: push
+name: Publish Helm chart
+jobs:
+  helmGh-pages:
+    name: Helm gh-pages
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Helm gh-pages
+      uses: stefanprodan/gh-actions/helm-gh-pages@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        args: chart/app https://user.github.io/app
