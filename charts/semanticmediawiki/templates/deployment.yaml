@@ -20,20 +20,25 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       initContainers:
-        - name: db-setup
+        - name: db-chown
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          command: ['db-setup.sh']
+          command: ['ensure-permissions.sh']
           volumeMounts:
           - mountPath: /var/www/data
             name: data-volume
           - mountPath: /var/www/localstore
             name: localstore-volume
-        - name: db-chown
+        - name: db-setup
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          command: ['chown', '-R', 'www-data:www-data', '/var/www/data']
+          command: ['db-setup.sh']
+          securityContext:
+            runAsUser: 33
+            allowPrivilegeEscalation: false
           volumeMounts:
           - mountPath: /var/www/data
             name: data-volume
+          - mountPath: /var/www/localstore
+            name: localstore-volume
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -47,14 +52,14 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
