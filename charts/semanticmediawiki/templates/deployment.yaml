@@ -23,6 +23,19 @@ spec:
         - name: db-chown
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           command: ['ensure-permissions.sh']
+          env:
+          - name: MEDIAWIKI_SITE_SERVER
+            value: {{ .Values.wiki.path | quote }}
+          - name: MEDIAWIKI_SITE_NAME
+            value: {{ .Values.wiki.name | quote }}
+          - name: MEDIAWIKI_SITE_LANG
+            value: {{ .Values.wiki.lang | quote }}
+          - name: MEDIAWIKI_ADMIN_USER
+            value: {{ .Values.wiki.user | quote }}
+          - name: MEDIAWIKI_ADMIN_PASS
+            value: {{ .Values.wiki.password | quote }}
+          - name: SMW_SEMANTIC_URL
+            value: {{ .Values.wiki.semanticRoot | quote }}
           volumeMounts:
           - mountPath: /var/www/data
             name: data-volume
@@ -31,6 +44,19 @@ spec:
         - name: db-setup
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           command: ['db-setup.sh']
+          env:
+          - name: MEDIAWIKI_SITE_SERVER
+            value: {{ .Values.wiki.path | quote }}
+          - name: MEDIAWIKI_SITE_NAME
+            value: {{ .Values.wiki.name | quote }}
+          - name: MEDIAWIKI_SITE_LANG
+            value: {{ .Values.wiki.lang | quote }}
+          - name: MEDIAWIKI_ADMIN_USER
+            value: {{ .Values.wiki.user | quote }}
+          - name: MEDIAWIKI_ADMIN_PASS
+            value: {{ .Values.wiki.password | quote }}
+          - name: SMW_SEMANTIC_URL
+            value: {{ .Values.wiki.semanticRoot | quote }}
           securityContext:
             runAsUser: 33
             allowPrivilegeEscalation: false
@@ -43,6 +69,19 @@ spec:
         - name: {{ .Chart.Name }}-web
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: MEDIAWIKI_SITE_SERVER
+            value: {{ .Values.wiki.path | quote }}
+          - name: MEDIAWIKI_SITE_NAME
+            value: {{ .Values.wiki.name | quote }}
+          - name: MEDIAWIKI_SITE_LANG
+            value: {{ .Values.wiki.lang | quote }}
+          - name: MEDIAWIKI_ADMIN_USER
+            value: {{ .Values.wiki.user | quote }}
+          - name: MEDIAWIKI_ADMIN_PASS
+            value: {{ .Values.wiki.password | quote }}
+          - name: SMW_SEMANTIC_URL
+            value: {{ .Values.wiki.semanticRoot | quote }}
           volumeMounts:
           - mountPath: /var/www/data
             name: data-volume
@@ -66,6 +105,19 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['crontab-foreground']
+          env:
+          - name: MEDIAWIKI_SITE_SERVER
+            value: {{ .Values.wiki.path | quote }}
+          - name: MEDIAWIKI_SITE_NAME
+            value: {{ .Values.wiki.name | quote }}
+          - name: MEDIAWIKI_SITE_LANG
+            value: {{ .Values.wiki.lang | quote }}
+          - name: MEDIAWIKI_ADMIN_USER
+            value: {{ .Values.wiki.user | quote }}
+          - name: MEDIAWIKI_ADMIN_PASS
+            value: {{ .Values.wiki.password | quote }}
+          - name: SMW_SEMANTIC_URL
+            value: {{ .Values.wiki.semanticRoot | quote }}
           volumeMounts:
           - mountPath: /var/www/data
             name: data-volume

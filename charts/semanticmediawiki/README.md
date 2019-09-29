@@ -34,14 +34,20 @@ The following table lists the configurable parameters of the SemanticMediaWiki c
 | `image.pullPolicy`          | Image pull policy | `IfNotPresent` |
 | `nameOverride`              | String to partially override semanticmediawiki.fullname template with a string (will prepend the release name) | `nil` |
 | `fullnameOverride`          | String to fully override semanticmediawiki.fullname template with a string | `nil` |
+| `wiki.path`                 | Root for SemanticMediaWiki to generate paths against | `http://127.0.0.1:8080` |
+| `wiki.semanticRoot`         | Root for SemanticMediaWiki to use as a root for the RDF properties | `http://www.example.com/` |
+| `wiki.user`                 | Admin user of the application | `admin` |
+| `wiki.password`             | Application password | `password` |
+| `wiki.name`                 | Name for the wiki | `tst` |
+| `wiki.lang`                 | Language code for the wiki | `en` |
 | `service.type`              | Kubernetes Service type | `ClusterIP` |
 | `service.port`              | Service HTTP Port | `80` |
 | `ingress.enabled`           | Enable ingress controller resource | `false` |
 | `ingress.annotations`       | Annotations for this host's ingress record | `[]` |
-| `ingress.hosts[0].name`     | Hostname to your Mediawiki installation | `mediawiki.local` |
+| `ingress.hosts[0].name`     | Hostname to your SemanticMediawiki installation | `mediawiki.local` |
 | `ingress.hosts[0].paths`    | Path within the url structure | `/` |
 | `ingress.tls[0].secretName` | TLS Secret Name | `nil` |
-| `ingress.tls[0].hosts[0].host` | TLS Secret hostname | `nil` |
+| `ingress.tls[0].hosts`      | TLS Secret hostnames | `nil` |
 | `web.resources`             | Resources used by the web container | `nil` |
 | `cron.resources`            | Resources used by the cron container | `nil` |
 | `affinity`                  | Map of node/pod affinities | `{}` |
