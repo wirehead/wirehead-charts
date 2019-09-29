@@ -19,10 +19,30 @@ spec:
         app.kubernetes.io/name: {{ include "semanticmediawiki.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      initContainers:
+        - name: db-setup
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ['db-setup.sh']
+          volumeMounts:
+          - mountPath: /var/www/data
+            name: data-volume
+          - mountPath: /var/www/localstore
+            name: localstore-volume
+        - name: db-chown
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ['chown', '-R', 'www-data:www-data', '/var/www/data']
+          volumeMounts:
+          - mountPath: /var/www/data
+            name: data-volume
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+          - mountPath: /var/www/data
+            name: data-volume
+          - mountPath: /var/www/localstore
+            name: localstore-volume
           ports:
             - name: http
               containerPort: 80
@@ -37,6 +57,11 @@ spec:
           #     port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: data-volume
+          emptyDir: {}
+        - name: localstore-volume
+          emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
