@@ -27,8 +27,26 @@ This chart bootstraps a [SemanticMediaWiki](https://www.semantic-mediawiki.org/)
 
 The following table lists the configurable parameters of the SemanticMediaWiki chart and their default values.
 
-|              Parameter               |               Description                                   |                         Default                         |
-|--------------------------------------|-------------------------------------------------------------|---------------------------------------------------------|
+|         Parameter           |               Description                                   |                         Default                         |
+|-----------------------------|-------------------------------------------------------------|---------------------------------------------------------|
+| `image.repository`          | SemanticMediaWiki image registry | `wirehead/semantic-mediawiki-docker` |
+| `image.tag`                 | SemanticMediaWiki Image tag | `latest` |
+| `image.pullPolicy`          | Image pull policy | `IfNotPresent` |
+| `nameOverride`              | String to partially override semanticmediawiki.fullname template with a string (will prepend the release name) | `nil` |
+| `fullnameOverride`          | String to fully override semanticmediawiki.fullname template with a string | `nil` |
+| `service.type`              | Kubernetes Service type | `ClusterIP` |
+| `service.port`              | Service HTTP Port | `80` |
+| `ingress.enabled`           | Enable ingress controller resource | `false` |
+| `ingress.annotations`       | Annotations for this host's ingress record | `[]` |
+| `ingress.hosts[0].name`     | Hostname to your Mediawiki installation | `mediawiki.local` |
+| `ingress.hosts[0].paths`    | Path within the url structure | `/` |
+| `ingress.tls[0].secretName` | TLS Secret Name | `nil` |
+| `ingress.tls[0].hosts[0].host` | TLS Secret hostname | `nil` |
+| `web.resources`             | Resources used by the web container | `nil` |
+| `cron.resources`            | Resources used by the cron container | `nil` |
+| `affinity`                  | Map of node/pod affinities | `{}` |
+| `nodeSelector`              | Map of node selectors | `{}` |
+| `tolerations`               | Map of node tolerations | `{}` |
 
 
 ## Persistence
