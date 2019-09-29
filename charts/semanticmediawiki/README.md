@@ -6,6 +6,13 @@ A nice Helm chart designed for running [Semantic MediaWiki](https://www.semantic
 
 **WORK IN PROGRESS WARNING**: I'm totally not finished messing with this.
 
+## TL;DR;
+
+```console
+$ helm repo add wirehead https://wirehead.github.io/wirehead-charts
+$ helm install wirehead/semanticmediawiki
+```
+
 ## Introduction
 
 This chart bootstraps a [SemanticMediaWiki](https://www.semantic-mediawiki.org/) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
@@ -91,8 +98,8 @@ The following table lists the configurable parameters of the SemanticMediaWiki c
 - [ ] Readme files
 - [x] Cron
 - [ ] Persistance flag
-- [ ] Config variables
-- [ ] Figure out that helm repo build thingie
+- [x] Config variables
+- [x] Figure out that helm repo build thingie
 
 ## Inspired by:
 
