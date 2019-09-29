@@ -1,0 +1,150 @@
+{{- if and .Values.provisionEnabled (ne "sqlite" .Values.database.type) -}}
+apiVersion: batch/v1
+kind: Job
+  name: {{ include "semanticmediawiki.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "semanticmediawiki.name" . }}
+    helm.sh/chart: {{ include "semanticmediawiki.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: db-chown
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ['ensure-permissions.sh']
+          env:
+          - name: MEDIAWIKI_SITE_SERVER
+            value: {{ .Values.wiki.path | quote }}
+          - name: MEDIAWIKI_SITE_NAME
+            value: {{ .Values.wiki.name | quote }}
+          - name: MEDIAWIKI_SITE_LANG
+            value: {{ .Values.wiki.lang | quote }}
+          - name: MEDIAWIKI_ADMIN_USER
+            value: {{ .Values.wiki.user | quote }}
+          - name: MEDIAWIKI_ADMIN_PASS
+            value: {{ .Values.wiki.password | quote }}
+          - name: SMW_SEMANTIC_URL
+            value: {{ .Values.wiki.semanticRoot | quote }}
+          {{- if .Values.wiki.uploads }}
+          - name: MEDIAWIKI_ENABLE_UPLOADS
+            value: "true"
+          {{- end }}
+          - name: MEDIAWIKI_SECRET_KEY
+            valueFrom: 
+              secretKeyRef:
+                name: {{ template "semanticmediawiki.secretName" . }}
+                key: secret-key
+          - name: MEDIAWIKI_DB_TYPE
+            value: {{ .Values.database.type | quote }}
+          {{- if .Values.database.host }}
+          - name: MEDIAWIKI_DB_HOST
+            value: {{ .Values.database.host | quote }}
+          {{- end }}
+          {{- if .Values.database.user }}
+          - name: MEDIAWIKI_DB_USER
+            value: {{ .Values.database.user | quote }}
+          {{- end }}
+          {{- if .Values.database.password }}
+          - name: MEDIAWIKI_DB_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: {{ template "semanticmediawiki.secretName" . }}
+                key: database-password
+          {{- end }}
+          - name: MEDIAWIKI_DB_NAME
+            value: {{ .Values.database.name | quote }}
+          - name: MEDIAWIKI_DB_PORT
+            value: {{ .Values.database.port | quote }}
+          {{- if .Values.database.schema }}
+          - name: MEDIAWIKI_DB_SCHEMA
+            value: {{ .Values.database.schema | quote }}
+          {{- end }}
+          volumeMounts:
+          - mountPath: /var/www/data
+            name: data-volume
+          - mountPath: /var/www/localstore
+            name: localstore-volume
+        - name: db-setup
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ['db-setup.sh']
+          env:
+          - name: MEDIAWIKI_SITE_SERVER
+            value: {{ .Values.wiki.path | quote }}
+          - name: MEDIAWIKI_SITE_NAME
+            value: {{ .Values.wiki.name | quote }}
+          - name: MEDIAWIKI_SITE_LANG
+            value: {{ .Values.wiki.lang | quote }}
+          - name: MEDIAWIKI_ADMIN_USER
+            value: {{ .Values.wiki.user | quote }}
+          - name: MEDIAWIKI_ADMIN_PASS
+            value: {{ .Values.wiki.password | quote }}
+          - name: SMW_SEMANTIC_URL
+            value: {{ .Values.wiki.semanticRoot | quote }}
+          {{- if .Values.wiki.uploads }}
+          - name: MEDIAWIKI_ENABLE_UPLOADS
+            value: "true"
+          {{- end }}
+          - name: MEDIAWIKI_SECRET_KEY
+            valueFrom: 
+              secretKeyRef:
+                name: {{ template "semanticmediawiki.secretName" . }}
+                key: secret-key
+          - name: MEDIAWIKI_DB_TYPE
+            value: {{ .Values.database.type | quote }}
+          {{- if .Values.database.host }}
+          - name: MEDIAWIKI_DB_HOST
+            value: {{ .Values.database.host | quote }}
+          {{- end }}
+          {{- if .Values.database.user }}
+          - name: MEDIAWIKI_DB_USER
+            value: {{ .Values.database.user | quote }}
+          {{- end }}
+          {{- if .Values.database.password }}
+          - name: MEDIAWIKI_DB_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: {{ template "semanticmediawiki.secretName" . }}
+                key: database-password
+          {{- end }}
+          - name: MEDIAWIKI_DB_NAME
+            value: {{ .Values.database.name | quote }}
+          - name: MEDIAWIKI_DB_PORT
+            value: {{ .Values.database.port | quote }}
+          {{- if .Values.database.schema }}
+          - name: MEDIAWIKI_DB_SCHEMA
+            value: {{ .Values.database.schema | quote }}
+          {{- end }}
+          securityContext:
+            runAsUser: 33
+            allowPrivilegeEscalation: false
+          volumeMounts:
+          - mountPath: /var/www/data
+            name: data-volume
+          - mountPath: /var/www/localstore
+            name: localstore-volume
+      volumes:
+        - name: data-volume
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "postgresql.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: localstore-volume
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+{{- end }}

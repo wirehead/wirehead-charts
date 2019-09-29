@@ -75,6 +75,7 @@ spec:
             name: data-volume
           - mountPath: /var/www/localstore
             name: localstore-volume
+        {{- if (eq "sqlite" .Values.database.type) }}
         - name: db-setup
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           command: ['db-setup.sh']
@@ -133,6 +134,7 @@ spec:
             name: data-volume
           - mountPath: /var/www/localstore
             name: localstore-volume
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}-web
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -265,7 +267,7 @@ spec:
         - name: data-volume
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "postgresql.fullname" .) }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "semanticmediawiki.fullname" .) }}
         {{- else }}
           emptyDir: {}
         {{- end }}

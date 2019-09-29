@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "postgresql.fullname" . }}
+  name: {{ template "semanticmediawiki.fullname" . }}
   labels:
     app.kubernetes.io/name: {{ include "semanticmediawiki.name" . }}
     helm.sh/chart: {{ include "semanticmediawiki.chart" . }}

@@ -57,6 +57,7 @@ The following table lists the configurable parameters of the SemanticMediaWiki c
 | `image.pullPolicy`          | Image pull policy | `IfNotPresent` |
 | `nameOverride`              | String to partially override semanticmediawiki.fullname template with a string (will prepend the release name) | `nil` |
 | `fullnameOverride`          | String to fully override semanticmediawiki.fullname template with a string | `nil` |
+| `provisionEnabled`          | Set this to true to trigger a database provision | `false` |
 | `wiki.path`                 | Root for SemanticMediaWiki to generate paths against | `http://127.0.0.1:8080` |
 | `wiki.semanticRoot`         | Path for SemanticMediaWiki to use as a root for the RDF properties | `http://www.example.com/` |
 | `wiki.user`                 | Admin user of the application | `admin` |
@@ -98,7 +99,13 @@ The following table lists the configurable parameters of the SemanticMediaWiki c
 
 ### Database
 
+Primary wiki content is stored in a database
+
+ * Set `provisionEnabled` to true once to trigger the database provisioner process
+
 ### Uploads
+
+Images and the state of the SemanticMediaWiki migrations are stored in a mapped volume.
 
 ## Upgrading
 

@@ -56,6 +56,9 @@ wiki:
 ## database-password key containing database.password
 # existingSecret: 'secret'
 
+## Set to true to trigger a database provision (only helpful if the database is not sqlite)
+provisionEnabled: false
+
 ## Persist data to a persistent volume
 persistence:
   enabled: false
