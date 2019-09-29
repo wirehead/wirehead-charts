@@ -3,7 +3,7 @@ entries:
   semanticmediawiki:
   - apiVersion: v1
     appVersion: "1.31"
-    created: 2019-09-29T22:49:02.565345312Z
+    created: 2019-09-29T22:55:34.174219801Z
     description: SemanticMediaWiki
     digest: 42ad46a20b70e168475eafa704ab46d8987446b1f4ef652d935077dd85d8d94e
     engine: gotpl
@@ -24,4 +24,4 @@ entries:
     urls:
     - semanticmediawiki/semanticmediawiki-0.1.0.tgz
     version: 0.1.0
-generated: 2019-09-29T22:49:02.564797241Z
+generated: 2019-09-29T22:55:34.173658736Z
