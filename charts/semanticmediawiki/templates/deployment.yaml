@@ -61,7 +61,7 @@ spec:
               path: /
               port: http
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.web.resources | nindent 12 }}
         - name: {{ .Chart.Name }}-cron
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -72,7 +72,7 @@ spec:
           - mountPath: /var/www/localstore
             name: localstore-volume
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.cron.resources | nindent 12 }}
       volumes:
         - name: data-volume
           emptyDir: {}
