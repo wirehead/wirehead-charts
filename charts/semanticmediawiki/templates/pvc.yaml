@@ -10,6 +10,7 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
     "helm.sh/resource-policy": {{ default "" .Values.persistence.resourcePolicy }}
+    "helm.sh/hook": "pre-install"
 {{- if .Values.persistence.annotations }}
 {{ toYaml .Values.persistence.annotations | indent 4 }}
 {{- end }}

@@ -1,12 +1,15 @@
-{{- if and .Values.provisionEnabled (ne "sqlite" .Values.database.type) -}}
+{{- if and .Values.provisionEnabled (ne "sqlite" .Values.database.type) }}
 apiVersion: batch/v1
 kind: Job
-  name: {{ include "semanticmediawiki.fullname" . }}
+metadata:
+  name: {{ include "semanticmediawiki.fullname" . }}-setup
   labels:
     app.kubernetes.io/name: {{ include "semanticmediawiki.name" . }}
     helm.sh/chart: {{ include "semanticmediawiki.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    "helm.sh/hook": "pre-install"
 spec:
   template:
     spec:
@@ -126,14 +129,14 @@ spec:
           - mountPath: /var/www/localstore
             name: localstore-volume
       volumes:
-        - name: data-volume
+        - name: localstore-volume
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "postgresql.fullname" .) }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "semanticmediawiki.fullname" .) }}
         {{- else }}
           emptyDir: {}
         {{- end }}
-        - name: localstore-volume
+        - name: data-volume
           emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:

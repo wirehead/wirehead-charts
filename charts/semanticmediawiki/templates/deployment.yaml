@@ -264,14 +264,14 @@ spec:
           resources:
             {{- toYaml .Values.cron.resources | nindent 12 }}
       volumes:
-        - name: data-volume
+        - name: localstore-volume
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "semanticmediawiki.fullname" .) }}
         {{- else }}
           emptyDir: {}
         {{- end }}
-        - name: localstore-volume
+        - name: data-volume
           emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
