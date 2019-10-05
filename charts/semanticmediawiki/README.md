@@ -97,15 +97,50 @@ The following table lists the configurable parameters of the SemanticMediaWiki c
 
 ## Persistence
 
+SemanticMediaWiki has roughly two sets of state to persist.  Pages, history, et al are stored in a SQL database, either MariaDB/MySQL, PostgreSQL, or SQLite3.  Uploaded file and the state of SemanticMediaWiki database updates are stored as files.
+
 ### Database
 
-Primary wiki content is stored in a database
+The default configuration is persistence off and a SQLite3 local database.
 
- * Set `provisionEnabled` to true once to trigger the database provisioner process
+When I'm installing things that need a database in production on Kube clusters with Helm, I've found myself consistently turning off the bundled database that comes with charts, so I didn't feel it useful to include a database.
+
+You can use either PostgreSQL or MySQL/MariaDB by setting `database.type`.
+
+My assumption is that you've created a user and a database with the correct permissions ahead of time.
+
+Something like this should work, for PostgreSQL:
+
+```sql
+CREATE ROLE mediawiki LOGIN PASSWORD '$MEDIAWIKIPASSWORD';
+CREATE DATABASE my_wiki WITH OWNER mediawiki;
+```
+
+From here, the procedure looks like:
+
+ * Set the `database.*` keys as necessary.
+ * You can also create the secret without touching the chart and pull it in with `existingSecret`.
+ * Set `provisionEnabled` to true once to trigger the database provisioner process, at which point you leave it set to false.
 
 ### Uploads
 
-Images and the state of the SemanticMediaWiki migrations are stored in a mapped volume.
+Images and the state of the SemanticMediaWiki migrations are stored in a mapped volume.  If you've turned on a database, you also need to persist uploads.
+
+To persist this dataset, you want to set `persistence.enabled` to `true`.  You can use `persistence.existingClaim` to use an already created persistant volume.
+
+Furthermore, if you want kubernetes to carefully not delete this volume if you delete the chart, maybe you want to set `persistence.resourcePolicy` to `Keep`.
+
+## Advanced configuration details
+
+### Using different MediaWiki containers
+
+This will not work off of the stock MediaWiki containers.  
+
+If you want to run a different wiki with different themes, plugins, et al, you probably want to set up your own docker container and builder and fork [the underlying container](https://github.com/wirehead/semantic-mediawiki-docker) 
+
+## A few words on support
+
+I'm running this for my own personal reasons, so I have at least some vested interest in keeping it functional and upgraded over time.  However, I'm not getting paid to do this.
 
 ## Upgrading
 

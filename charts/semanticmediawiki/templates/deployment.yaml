@@ -265,6 +265,64 @@ spec:
             name: localstore-volume
           resources:
             {{- toYaml .Values.cron.resources | nindent 12 }}
+        - name: {{ .Chart.Name }}-jobs
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['mwjobrunner']
+          env:
+          - name: MEDIAWIKI_SITE_SERVER
+            value: {{ .Values.wiki.path | quote }}
+          - name: MEDIAWIKI_SITE_NAME
+            value: {{ .Values.wiki.name | quote }}
+          - name: MEDIAWIKI_SITE_LANG
+            value: {{ .Values.wiki.lang | quote }}
+          - name: MEDIAWIKI_ADMIN_USER
+            value: {{ .Values.wiki.user | quote }}
+          - name: MEDIAWIKI_ADMIN_PASS
+            value: {{ .Values.wiki.password | quote }}
+          - name: SMW_SEMANTIC_URL
+            value: {{ .Values.wiki.semanticRoot | quote }}
+          {{- if .Values.wiki.uploads }}
+          - name: MEDIAWIKI_ENABLE_UPLOADS
+            value: "true"
+          {{- end }}
+          - name: MEDIAWIKI_SECRET_KEY
+            valueFrom: 
+              secretKeyRef:
+                name: {{ template "semanticmediawiki.secretName" . }}
+                key: secret-key
+          - name: MEDIAWIKI_DB_TYPE
+            value: {{ .Values.database.type | quote }}
+          {{- if .Values.database.host }}
+          - name: MEDIAWIKI_DB_HOST
+            value: {{ .Values.database.host | quote }}
+          {{- end }}
+          {{- if .Values.database.user }}
+          - name: MEDIAWIKI_DB_USER
+            value: {{ .Values.database.user | quote }}
+          {{- end }}
+          {{- if .Values.database.password }}
+          - name: MEDIAWIKI_DB_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: {{ template "semanticmediawiki.secretName" . }}
+                key: database-password
+          {{- end }}
+          - name: MEDIAWIKI_DB_NAME
+            value: {{ .Values.database.name | quote }}
+          - name: MEDIAWIKI_DB_PORT
+            value: {{ .Values.database.port | quote }}
+          {{- if .Values.database.schema }}
+          - name: MEDIAWIKI_DB_SCHEMA
+            value: {{ .Values.database.schema | quote }}
+          {{- end }}
+          volumeMounts:
+          - mountPath: /var/www/data
+            name: data-volume
+          - mountPath: /var/www/localstore
+            name: localstore-volume
+          resources:
+            {{- toYaml .Values.cron.resources | nindent 12 }}
       volumes:
         - name: localstore-volume
         {{- if .Values.persistence.enabled }}
