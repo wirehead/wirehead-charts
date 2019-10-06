@@ -47,8 +47,7 @@ extraConfigmapMounts: []
   #  mountPath: /usr/local/backup-scripts/
   #  configMap: backup-scripts
   #  readOnly: true
-
-
+  #  defaultMode: 0755
 
 wiki:
   path: http://127.0.0.1:8080

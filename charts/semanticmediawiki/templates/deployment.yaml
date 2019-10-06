@@ -376,6 +376,7 @@ spec:
         - name: {{ .name }}
           configMap:
             name: {{ .configMap }}
+            defaultMode {{ .defaultMode }}
         {{- end }}
         - name: localstore-volume
         {{- if .Values.persistence.enabled }}
