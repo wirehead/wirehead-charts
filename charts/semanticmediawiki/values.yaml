@@ -39,6 +39,14 @@ database:
   #port: 5432
   #schema: mediawiki
 
+# Extra configMaps to be mounted for things like backups
+extraConfigmapMounts:
+  - name: configmap
+    mountPath: /usr/local/backup-scripts/
+    configMap: piquant-seagull-database-database-setup
+    readOnly: true
+
+
 wiki:
   path: http://127.0.0.1:8080
   user: admin

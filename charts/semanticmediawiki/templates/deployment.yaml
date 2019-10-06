@@ -193,6 +193,12 @@ spec:
             name: data-volume
           - mountPath: /var/www/localstore
             name: localstore-volume
+          {{- range .Values.extraConfigmapMounts }}
+          - name: {{ .name }}
+            mountPath: {{ .mountPath }}
+            subPath: {{ .subPath | default "" }}
+            readOnly: {{ .readOnly }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 80
@@ -266,6 +272,12 @@ spec:
             name: data-volume
           - mountPath: /var/www/localstore
             name: localstore-volume
+          {{- range .Values.extraConfigmapMounts }}
+          - name: {{ .name }}
+            mountPath: {{ .mountPath }}
+            subPath: {{ .subPath | default "" }}
+            readOnly: {{ .readOnly }}
+          {{- end }}
           resources:
             {{- toYaml .Values.cron.resources | nindent 12 }}
         {{- end }}
@@ -274,6 +286,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['mwjobrunner']
+          securityContext:
+            runAsUser: 33
+            allowPrivilegeEscalation: false
           env:
           - name: MEDIAWIKI_SITE_SERVER
             value: {{ .Values.wiki.path | quote }}
@@ -326,10 +341,21 @@ spec:
             name: data-volume
           - mountPath: /var/www/localstore
             name: localstore-volume
+          {{- range .Values.extraConfigmapMounts }}
+          - name: {{ .name }}
+            mountPath: {{ .mountPath }}
+            subPath: {{ .subPath | default "" }}
+            readOnly: {{ .readOnly }}
+          {{- end }}
           resources:
             {{- toYaml .Values.jobs.resources | nindent 12 }}
       {{- end }}
       volumes:
+        {{- range .Values.extraConfigmapMounts }}
+        - name: {{ .name }}
+          configMap:
+            name: {{ .configMap }}
+        {{- end }}
         - name: localstore-volume
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
