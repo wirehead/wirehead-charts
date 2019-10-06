@@ -188,6 +188,13 @@ spec:
           - name: MEDIAWIKI_DB_SCHEMA
             value: {{ .Values.database.schema | quote }}
           {{- end }}
+          {{- range $key, $value := .Values.extraEnvSecrets }}
+          - name: {{ $value }}
+            valueFrom: 
+              secretKeyRef:
+                name: {{ template "semanticmediawiki.secretName" . }}
+                key: {{ $key }}
+          {{- end }}
           volumeMounts:
           - mountPath: /var/www/data
             name: data-volume
@@ -267,6 +274,13 @@ spec:
           - name: MEDIAWIKI_DB_SCHEMA
             value: {{ .Values.database.schema | quote }}
           {{- end }}
+          {{- range $key, $value := .Values.extraEnvSecrets }}
+          - name: {{ $value }}
+            valueFrom: 
+              secretKeyRef:
+                name: {{ template "semanticmediawiki.secretName" . }}
+                key: {{ $key }}
+          {{- end }}
           volumeMounts:
           - mountPath: /var/www/data
             name: data-volume
@@ -335,6 +349,13 @@ spec:
           {{- if .Values.database.schema }}
           - name: MEDIAWIKI_DB_SCHEMA
             value: {{ .Values.database.schema | quote }}
+          {{- end }}
+          {{- range $key, $value := .Values.extraEnvSecrets }}
+          - name: {{ $value }}
+            valueFrom: 
+              secretKeyRef:
+                name: {{ template "semanticmediawiki.secretName" . }}
+                key: {{ $key }}
           {{- end }}
           volumeMounts:
           - mountPath: /var/www/data
