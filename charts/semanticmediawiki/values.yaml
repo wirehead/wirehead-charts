@@ -59,6 +59,8 @@ wiki:
 ## Set to true to trigger a database provision (only helpful if the database is not sqlite)
 provisionEnabled: false
 
+probesEnabled: true
+
 ## Persist data to a persistent volume
 persistence:
   enabled: false
@@ -96,6 +98,7 @@ web:
     #   memory: 128Mi
 
 cron:
+  enabled: true
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
@@ -108,6 +111,19 @@ cron:
     #   cpu: 100m
     #   memory: 128Mi
 
+jobs:
+  enabled: true
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
 
 nodeSelector: {}
 
