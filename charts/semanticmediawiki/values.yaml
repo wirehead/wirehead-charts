@@ -39,15 +39,18 @@ database:
   #port: 5432
   #schema: mediawiki
 
-extraEnvSecrets: {}
+extraEnvSecrets: []
+  #- name: RCLONE_KEY_ID
+  #  secret: secret
+  #  key: rclone-key-id
 
 # Extra configMaps to be mounted for things like backups
-extraConfigmapMounts: []
-  #- name: configmap
-  #  mountPath: /usr/local/backup-scripts/
-  #  configMap: backup-scripts
-  #  readOnly: true
-  #  defaultMode: 0755
+extraConfigmapMounts: 
+  # - name: configmap
+  #   mountPath: /usr/local/backup-scripts/
+  #   configMap: backup-scripts
+  #   readOnly: true
+  #   defaultMode: 0755
 
 wiki:
   path: http://127.0.0.1:8080

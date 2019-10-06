@@ -188,12 +188,12 @@ spec:
           - name: MEDIAWIKI_DB_SCHEMA
             value: {{ .Values.database.schema | quote }}
           {{- end }}
-          {{- range $key, $value := .Values.extraEnvSecrets }}
-          - name: {{ $value }}
+          {{- range .Values.extraEnvSecrets }}
+          - name: {{ .name }}
             valueFrom: 
               secretKeyRef:
-                name: {{ template "semanticmediawiki.secretName" . }}
-                key: {{ $key }}
+                name: {{ .secret }}
+                key: {{ .key }}
           {{- end }}
           volumeMounts:
           - mountPath: /var/www/data
@@ -274,12 +274,12 @@ spec:
           - name: MEDIAWIKI_DB_SCHEMA
             value: {{ .Values.database.schema | quote }}
           {{- end }}
-          {{- range $key, $value := .Values.extraEnvSecrets }}
-          - name: {{ $value }}
+          {{- range .Values.extraEnvSecrets }}
+          - name: {{ .name }}
             valueFrom: 
               secretKeyRef:
-                name: {{ template "semanticmediawiki.secretName" . }}
-                key: {{ $key }}
+                name: {{ .secret }}
+                key: {{ .key }}
           {{- end }}
           volumeMounts:
           - mountPath: /var/www/data
@@ -350,12 +350,12 @@ spec:
           - name: MEDIAWIKI_DB_SCHEMA
             value: {{ .Values.database.schema | quote }}
           {{- end }}
-          {{- range $key, $value := .Values.extraEnvSecrets }}
-          - name: {{ $value }}
+          {{- range .Values.extraEnvSecrets }}
+          - name: {{ .name }}
             valueFrom: 
               secretKeyRef:
-                name: {{ template "semanticmediawiki.secretName" . }}
-                key: {{ $key }}
+                name: {{ .secret }}
+                key: {{ .key }}
           {{- end }}
           volumeMounts:
           - mountPath: /var/www/data
@@ -376,7 +376,7 @@ spec:
         - name: {{ .name }}
           configMap:
             name: {{ .configMap }}
-            defaultMode {{ .defaultMode }}
+            defaultMode: {{ .defaultMode }}
         {{- end }}
         - name: localstore-volume
         {{- if .Values.persistence.enabled }}
