@@ -1,6 +1,6 @@
 # Wirehead Charts Repo
 
-[![CircleCI](https://circleci.com/gh/wirehead/wirehead-charts.svg?style=svg)](https://circleci.com/gh/wirehead/wirehead-charts)
+![Release Charts](https://github.com/wirehead/wirehead-charts/workflows/Release%20Charts/badge.svg)
 
 Just some stuff that nobody else has gotten around to writing a Helm chart for yet.
 
