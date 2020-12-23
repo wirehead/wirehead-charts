@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: "1.31"
 description: SemanticMediaWiki
 name: semanticmediawiki
-version: 0.1.1
+version: 0.1.2
 home: https://github.com/wirehead/wirehead-charts/tree/master/charts/semanticmediawiki
 icon: https://raw.githubusercontent.com/wirehead/semantic-mediawiki-docker/master/icons/favicon-202x202.png
 keywords:

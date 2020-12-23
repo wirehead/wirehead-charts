@@ -9,6 +9,12 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+
+## Specify imagePullSecrets
+## ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
+##
+# imagePullSecrets: myregistrykey
+
 nameOverride: ""
 fullnameOverride: ""
 

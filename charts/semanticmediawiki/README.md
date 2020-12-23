@@ -55,6 +55,7 @@ The following table lists the configurable parameters of the SemanticMediaWiki c
 | `image.repository`          | SemanticMediaWiki image registry | `wirehead/semantic-mediawiki-docker` |
 | `image.tag`                 | SemanticMediaWiki Image tag | `latest` |
 | `image.pullPolicy`          | Image pull policy | `IfNotPresent` |
+| `imagePullSecrets`		  | Image pull secret | `nil` |
 | `nameOverride`              | String to partially override semanticmediawiki.fullname template with a string (will prepend the release name) | `nil` |
 | `fullnameOverride`          | String to fully override semanticmediawiki.fullname template with a string | `nil` |
 | `provisionEnabled`          | Set this to true to trigger a database provision | `false` |

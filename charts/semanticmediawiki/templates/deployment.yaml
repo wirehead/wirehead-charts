@@ -371,6 +371,10 @@ spec:
           resources:
             {{- toYaml .Values.jobs.resources | nindent 12 }}
       {{- end }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
+      {{- end }}
       volumes:
         {{- range .Values.extraConfigmapMounts }}
         - name: {{ .name }}
