@@ -37,3 +37,35 @@ Generate chart secret name
 {{- define "semanticmediawiki.secretName" -}}
 {{ default (include "semanticmediawiki.fullname" .) .Values.existingSecret }}
 {{- end -}}
+
+
+{{/*
+Common labels
+*/}}
+{{- define "semanticmediawiki.labels" -}}
+helm.sh/chart: {{ include "semanticmediawiki.chart" . }}
+{{ include "semanticmediawiki.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "semanticmediawiki.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "semanticmediawiki.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "semanticmediawiki.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "semanticmediawiki.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
