@@ -3,6 +3,28 @@ entries:
   semanticmediawiki:
   - apiVersion: v1
     appVersion: "1.31"
+    created: "2022-03-13T02:13:44.566858803Z"
+    description: SemanticMediaWiki
+    digest: 4869e386f436122a1ef3c59f90c241421dbbc7d8c8ed006acd128eae1f367835
+    home: https://github.com/wirehead/wirehead-charts/tree/master/charts/semanticmediawiki
+    icon: https://raw.githubusercontent.com/wirehead/semantic-mediawiki-docker/master/icons/favicon-202x202.png
+    keywords:
+    - mediawiki
+    - semanticmediawiki
+    - smw
+    - wiki
+    - http
+    - web
+    - application
+    - php
+    name: semanticmediawiki
+    sources:
+    - https://github.com/wirehead/semantic-mediawiki-docker
+    urls:
+    - https://github.com/wirehead/wirehead-charts/releases/download/semanticmediawiki-0.1.3/semanticmediawiki-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v1
+    appVersion: "1.31"
     created: "2020-12-23T21:39:25.724059017Z"
     description: SemanticMediaWiki
     digest: 882633db2071a9f984ac04b0545ec0cdc31c55b4859b2836cbd0eb8a6fe66eef
